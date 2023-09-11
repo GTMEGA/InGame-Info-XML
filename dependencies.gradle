@@ -1,11 +1,28 @@
-// Add your dependencies here
+static def curse(curseDep) {
+    return "curse.maven:" + curseDep
+}
+
+def deobfCurse(curseDep) {
+    try {
+        return deobfMaven("https://cursemaven.com/", curse(curseDep))
+    } catch (Exception ignored) {
+        println("Failed to get dep " + curseDep + " from cursemaven. Grabbing from mirror.")
+        return deobfMaven("https://mvn.falsepattern.com/cursemaven/", curse(curseDep))
+    }
+}
 
 dependencies {
-    compile('com.github.GTNewHorizons:LunatriusCore:1.1.5-GTNH:dev')
+    // LunatriusCore 1.1.2.21
+    implementation(deobfCurse("lunatriuscore-225605:2225146"))
 
-    compileOnly('com.github.GTNewHorizons:BloodMagic:1.3.6:dev')
-    compileOnly('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
-    compileOnly('curse.maven:cofh-lib-220333:2388748')
-    compileOnly('curse.maven:simply-jetpacks-79325:2267185')
-    compileOnly('curse.maven:tfcraft-302973:2627990')
+    // BloodMagic 1.3.3-17
+    compileOnly(deobfCurse("blood-magic-224791:2264826"))
+    // Thaumcraft 4.2.3.5
+    compileOnly(deobfCurse("thaumcraft-223628:2227552"))
+    // CoFH Lib 1.2.1-185
+    compileOnly(deobfCurse("cofh-lib-220333:2388748"))
+    // Simply Jetpacks 1.5.3
+    compileOnly(deobfCurse("simply-jetpacks-79325:2267185"))
+    // TerraFirmaCraft 0.79.30.925
+    compileOnly(deobfCurse("tfcraft-302973:2627990"))
 }
